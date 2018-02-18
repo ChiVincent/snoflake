@@ -8,10 +8,20 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Vincent Chi",
+            "name": "Vincent Chicompo",
             "email": "song374561@chivincent.net"
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Chivincent\\Snowflake\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
 }
