@@ -3,7 +3,8 @@
     "description": "Twitter Snowflake for PHP implementation.",
     "type": "library",
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "friendsofphp/php-cs-fixer": "^2.10"
     },
     "license": "MIT",
     "authors": [
