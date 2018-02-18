@@ -7,7 +7,7 @@ class Sequence
     /**
      * @var int
      */
-    protected static $sequence;
+    protected static $sequence = 0;
 
     /**
      * @var int
