@@ -20,6 +20,7 @@ class Snowflake
 
             while ($sequence === Sequence::WAIT_FOR_NEXT_TIME) {
                 $time++;
+                usleep(1000);
                 $sequence = Sequence::next($time);
             }
 

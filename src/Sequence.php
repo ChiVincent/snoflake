@@ -32,7 +32,6 @@ class Sequence
             return self::$sequence++;
         }
 
-        usleep(1000);
         self::$sequence = 0;
         return self::WAIT_FOR_NEXT_TIME;
     }
