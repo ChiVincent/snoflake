@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Chivincent\Snowflake\Snowflake;
 use PHPUnit\Framework\TestCase;
+use Chivincent\Snowflake\Snowflake;
 
 class SnowflakeTest extends TestCase
 {
