@@ -5,6 +5,11 @@ namespace Chivincent\Snowflake;
 class Sequence
 {
     /**
+     * @const int
+     */
+    const WAIT_FOR_NEXT_TIME = -1;
+
+    /**
      * @var int
      */
     protected static $sequence = 0;
@@ -20,15 +25,14 @@ class Sequence
             self::$sequence = 0;
             self::$lastTimestamp = $currentTimestamp;
 
-            return 0;
+            return self::$sequence++;
         }
 
-        if (self::$sequence !== 512) {
-            return ++self::$sequence;
+        if (self::$sequence !== 511) {
+            return self::$sequence++;
         }
 
-        usleep(1000);
         self::$sequence = 0;
-        return 0;
+        return self::WAIT_FOR_NEXT_TIME;
     }
 }
