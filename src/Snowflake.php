@@ -4,12 +4,12 @@ namespace Chivincent\Snowflake;
 
 class Snowflake
 {
-    public function __invoke(int $count): array
+    public function __invoke(int $count = 1): array
     {
         return $this->gen($count);
     }
 
-    public function gen(int $count): array
+    public function gen(int $count = 1): array
     {
         $ret = [];
 
@@ -18,11 +18,20 @@ class Snowflake
             $machine = getenv('MACHINE_ID') ?: 0;
             $sequence = Sequence::next($time);
 
-            $binTime = str_pad(decbin($time), 41, 0, STR_PAD_LEFT);
-            $binMachine = str_pad(decbin($machine), 14, 0, STR_PAD_LEFT);
-            $binSequence = str_pad(decbin($sequence), 0, 0, STR_PAD_LEFT);
+            while ($sequence === Sequence::WAIT_FOR_NEXT_TIME) {
+                $time++;
+                $sequence = Sequence::next($time);
+            }
 
-            array_push($ret, bindec($binTime . $binMachine . $binSequence));
+            $binTime = str_pad(decbin($time), 41, 0, STR_PAD_LEFT);
+            $binMachine = str_pad(decbin($machine), 13, 0, STR_PAD_LEFT);
+            $binSequence = str_pad(decbin($sequence), 9, 0, STR_PAD_LEFT);
+
+            if (!is_integer($id = bindec($binTime . $binMachine . $binSequence))) {
+                throw new \Exception('The bits of integer is more than PHP_INT_MAX');
+            }
+
+            array_push($ret, $id);
         }
 
         return $ret;
