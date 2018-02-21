@@ -2,16 +2,29 @@
     "name": "chivincent/snowflake",
     "description": "Twitter Snowflake for PHP implementation.",
     "type": "library",
+    "require": {
+        "php": ">= 7.0.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "friendsofphp/php-cs-fixer": "^2.10"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": "Vincent Chi",
+            "name": "Vincent Chicompo",
             "email": "song374561@chivincent.net"
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Chivincent\\Snowflake\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    }
 }
