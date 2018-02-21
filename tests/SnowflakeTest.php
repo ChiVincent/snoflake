@@ -24,4 +24,19 @@ class SnowflakeTest extends TestCase
         $this->assertTrue(is_array($ids));
         $this->assertCount(1000, $ids);
     }
+
+    public function testIDsAreUnique()
+    {
+        $snowflake = new Snowflake();
+        $ids = $snowflake->gen(100000);
+
+        $this->assertArrayIsUnique($ids);
+    }
+
+    protected function assertArrayIsUnique(array $array)
+    {
+        $this->assertTrue(
+            count($array) === count(array_unique($array))
+        );
+    }
 }
