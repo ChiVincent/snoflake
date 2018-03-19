@@ -1,4 +1,5 @@
 # Snowflake
+[![Build Status](https://travis-ci.org/ChiVincent/snowflake.svg?branch=master)](https://travis-ci.org/ChiVincent/snowflake)
 
 [Twitter Snowflake](https://github.com/twitter/snowflake) for PHP implementation.
 
