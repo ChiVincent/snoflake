@@ -1,4 +1,5 @@
 # Snowflake
+[![Build Status](https://travis-ci.org/ChiVincent/snowflake.svg?branch=master)](https://travis-ci.org/ChiVincent/snowflake)
 
 [Twitter Snowflake](https://github.com/twitter/snowflake) for PHP implementation.
 
@@ -42,7 +43,7 @@ When use it on more then one machine , you should set `MACHINE_ID`(0 ~ 8191) as 
 
 In the same millisecond, it will use Sequence for promising the value is unique.
 
-### How's the data store in the 64 bits number?
+### How's the data store in the 64 bits number? (By default)
 
 ```text
 
@@ -52,15 +53,64 @@ In the same millisecond, it will use Sequence for promising the value is unique.
 
 ```
 
+You can reset this data storage for machine id and sequence when construct `Chivincent\Snowflake\Snowflake`
+
+```php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Chivincent\Snowflake\Snowflake;
+use Chivincent\Snowflake\StaticSequence;
+
+$snowflake = new Snowflake(StaticSequence::class, 14, 8);
+// The machine id length is 14 bits.
+// The sequence length is 8 bits.
+// Note: The sum of machine id length and sequence length should be 22. 
+
+```
+
 ### Is it possible repeat?
 
 Unfortunately, it is possible. 
 
-When use it in PHP without ZTS (Zend Thread Safe), and more than one thread try to get ids in the same millisecond, it will cause race condition.
+This package is using `static` variable for controlling sequence, but it could be repeat in different requests.
 
 ### How to resolve race condition?
 
-You can overwrite `Chivincent\Snowflake\Sequence` public method `next()`, try to get sequence value from redis, memcache or any sequence generator which can be daemoned at memory.
+Make a sequence class which implements `Chivincent\Snowflake\Sequencer` interface, you can define the static method `next` for generating sequence by redis or memcached.
+
+Example: 
+
+```php
+<?php
+
+namespace MyAwesome\Project;
+
+use Chivincent\Snowflake\Sequencer;
+
+class RedisSequence implements Sequencer
+{
+    protected $redis;
+    
+    public static function next(int $timestamp): int
+    {
+        if (!$redis->timestampExists($timestamp)) {
+            $redis->insertCurrentTimestamp($timestamp);
+            return 0;
+        }
+        
+        if ($redis->isLimit()) {
+            return self::WAIT_FOR_NEXT_TIME;
+        }
+        
+        return $redis->getNextNumber();        
+    }
+}
+
+// Use your RedisSequence when Snowflake's constructor.
+new Snowflake(RedisSequence::class);
+```
 
 ## LICENSE
 
