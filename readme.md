@@ -20,13 +20,15 @@ use Chivincent\Snowflake\Snowflake;
 
 $snowflake = new Snowflake();
 
+// Generate single unique ID.
+$snowflake(); // It will return int.
+$snowflake->gen(); // It will return an array with single element.
+
 // Generate 10 unique IDs
 $snowflake->gen(10);
-$snowflake(1000);
 
 // Generate 1000 unique IDs
-$snowflake->gen(10);
-$snowflake(1000);
+$snowflake->gen(1000);
 ```
 
 ## Description
