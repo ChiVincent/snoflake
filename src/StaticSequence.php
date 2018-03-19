@@ -2,7 +2,7 @@
 
 namespace Chivincent\Snowflake;
 
-class Sequence implements Sequencer
+class StaticSequence implements Sequencer
 {
     /**
      * Current sequence.
