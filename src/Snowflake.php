@@ -76,12 +76,12 @@ class Snowflake
         while ($count--) {
             $time = $this->time();
             $machine = getenv('MACHINE_ID') ?: 0;
-            $sequence = $this->sequencer::next($time);
+            $sequence = forward_static_call("$this->sequencer::next", $time);
 
             while ($sequence === Sequencer::WAIT_FOR_NEXT_TIME) {
                 $time++;
                 usleep(1000);
-                $sequence = $this->sequencer::next($time);
+                $sequence = forward_static_call("$this->sequencer::next", $time);
             }
 
             $binTime = str_pad(decbin($time), 41, 0, STR_PAD_LEFT);
