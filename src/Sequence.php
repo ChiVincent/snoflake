@@ -2,7 +2,7 @@
 
 namespace Chivincent\Snowflake;
 
-class Sequence
+class Sequence implements Sequencer
 {
     /**
      * @const int
