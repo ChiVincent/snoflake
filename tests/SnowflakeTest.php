@@ -10,10 +10,9 @@ class SnowflakeTest extends TestCase
     public function testGenSingleUniqueID()
     {
         $snowflake = new Snowflake();
-        $id = $snowflake->gen();
+        $id = $snowflake();
 
-        $this->assertTrue(is_array($id));
-        $this->assertCount(1, $id);
+        $this->assertTrue(is_int($id));
     }
 
     public function testGenMultipleUniqueIDs()

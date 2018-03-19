@@ -2,19 +2,18 @@
 
 namespace Chivincent\Snowflake;
 
-class Sequence
+class StaticSequence implements Sequencer
 {
     /**
-     * @const int
-     */
-    const WAIT_FOR_NEXT_TIME = -1;
-
-    /**
+     * Current sequence.
+     *
      * @var int
      */
     protected static $sequence = 0;
 
     /**
+     * Last sequence was generated timestamp.
+     *
      * @var int
      */
     protected static $lastTimestamp;
